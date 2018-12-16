@@ -1,0 +1,29 @@
+syntax = "proto3";
+package jerrayfu.chatroom;
+
+import "github.com/mwitkow/go-proto-validators/validator.proto";
+import "google/api/annotations.proto";
+
+option go_package = "pb";
+
+service Chatroom {
+    rpc CheckIn(stream Event) returns (stream Event);
+}
+
+message Client {
+    string client_id = 1;
+    string name = 2;
+}
+
+message Message {
+    Client from = 1;
+    Client to = 2;
+    string content = 3;
+}
+
+message Event {
+    oneof command {
+        Client login = 1;
+        Message message = 2;
+    }
+}
